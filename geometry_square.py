@@ -1,10 +1,10 @@
-from math import sin
+from math import sin, pi
 
 
 """
 Создайте класс для подсчета площади геометрических фигур. 
 Класс должен предоставлять функциональность для подсчета площади треугольника по разным формулам,
-площади прямоугольника, площади квадрата,  площади ромба. Расчеты реализовать через статические методы
+площади прямоугольника, площади квадрата,  площади ромба, площади круга . Расчеты реализовать через статические методы
 """
 
 
@@ -21,3 +21,15 @@ class GeometrySquare:
     @staticmethod
     def triangle_square_3(a: float, angle_a: int, angle_b: int):
         return 0.5 * a * a * (sin(angle_a) * sin(angle_b)) * sin(angle_a + angle_b)
+
+    @staticmethod
+    def circle_square_1(d: float):
+        return 0.25 * pi * d
+
+    @staticmethod
+    def circle_square_2(c: float, d: float):
+        return 0.25 * c * d
+
+    @staticmethod
+    def circle_square_3(r: float):
+        return pi * r * r
