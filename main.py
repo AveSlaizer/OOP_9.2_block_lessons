@@ -9,6 +9,12 @@
 """
 
 
+class ErrorSettingAge(Exception):
+    def __init__(self, text, value):
+        self.__text = text
+        self.__value = value
+
+
 class Person:
     def __init__(self, name, age):
         self.__name = name
@@ -18,6 +24,16 @@ class Person:
         print(f"Класс: {self.__class__.__name__}\n"
               f"Имя: {self.__name}\n"
               f"Возраст: {self.__age}")
+
+    @property
+    def age(self):
+        return self.__age
+
+    @age.setter
+    def age(self, value):
+        if value >= 18:
+            self.__age = value
+        raise ErrorSettingAge("Возраст не может быть ", value)
 
 
 class Employee(Person):
@@ -47,6 +63,7 @@ class Programmer(Employee):
 
 def execute_application():
     person = Person("Вася", 23)
+    person.age = 6
     person.info()
     print()
 
