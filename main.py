@@ -34,7 +34,6 @@ class StationaryPhone(Deivce):
     pass
 """
 
-
 # Правильно так
 """
 class CallingDevice(ABC):
@@ -90,49 +89,50 @@ class StationaryPhone(CallingDevice):
 """
 """
 class PrintingDevice(ABC):
-    
+
     @abstractmethod
     def print_document(self):
         pass
 
 class ScanningDevice(ABC):
-    
+
     @abstractmethod
     def scan_document(self):
         pass
-    
+
 class CopingDevice(ABC):
-    
+
     @abstractmethod
     def copy_document(self):
         pass
-    
+
 class Printer(PrintingDevice):
-    
+
     def print_document(self):
         # печать документа
         pass
-    
+
 class Scaner(ScanningDevice):
-    
+
     def scan_document(self):
         # сканирование документа
         pass
-    
+
 class MFD(ScanningDevice, PrintingDevice, CopingDevice):
-    
+
     def print_document(self):
         # печать документа
         pass
-    
+
     def scan_document(self):
         # сканирование документа
         pass
-    
+
     def copy_document(self):
         # компирование документа
         pass
 """
+
 
 def execute_application():
     pass
