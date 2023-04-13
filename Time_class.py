@@ -1,8 +1,24 @@
+class NegativeTimeError(Exception):
+
+    def __init__(self, text: str, value: int):
+        self.text = text
+        self.value = value
+
+
+class InitializationTimeError(Exception):
+
+    def __init__(self, text: str):
+        self.text = text
+
+
 class Time:
     HOUR = 3600
     MINUTE = 60
+    DAY = 86400
 
     def __init__(self, value: int):
+        if value < 0:
+            raise InitializationTimeError("Переданное значение не может быть отрицательным")
         self.__value = value
 
     @staticmethod
@@ -56,10 +72,52 @@ class Time:
 
     def __add__(self, other):
         if isinstance(other, int):
+            if other < 0:
+                raise NegativeTimeError("Количество секунд не может быть отрицательным ", other)
             t = self.__value + other
             return Time(t)
         if isinstance(other, Time):
             t = self.__value + other.__value
             return Time(t)
         raise TypeError(f"Невозможно выполнить операцию сложения между типами {self.__class__.__name__} и "
+                        f"{other.__class__.__name__}")
+
+    def __iadd__(self, other):
+        if isinstance(other, int):
+            if other < 0:
+                raise NegativeTimeError("Количество секунд не может быть отрицательным ", other)
+            self.__value = self.__value + other
+            return self
+        if isinstance(other, Time):
+            self.__value = self.__value + other.__value
+            return self
+        raise TypeError(f"Невозможно выполнить операцию сложения между типами {self.__class__.__name__} и "
+                        f"{other.__class__.__name__}")
+
+    def __sub__(self, other):
+        if isinstance(other, int):
+            if other < 0:
+                raise NegativeTimeError("Количество секунд не может быть отрицательным ", other)
+            t = self.__value - other
+            self.__value = t % Time.DAY if t < 0 else t
+            return Time(t)
+        if isinstance(other, Time):
+            t = self.__value - other.__value
+            self.__value = t % Time.DAY if t < 0 else t
+            return Time(t)
+        raise TypeError(f"Невозможно выполнить операцию вычитания между типами {self.__class__.__name__} и "
+                        f"{other.__class__.__name__}")
+
+    def __isub__(self, other):
+        if isinstance(other, int):
+            if other < 0:
+                raise NegativeTimeError("Количество секунд не может быть отрицательным ", other)
+            t = self.__value - other
+            self.__value = t % Time.DAY if t < 0 else t
+            return self
+        if isinstance(other, Time):
+            t = self.__value - other.__value
+            self.__value = t % Time.DAY if t < 0 else t
+            return self
+        raise TypeError(f"Невозможно выполнить операцию вычитания между типами {self.__class__.__name__} и "
                         f"{other.__class__.__name__}")
