@@ -38,9 +38,9 @@ class Car:
         Dependency Injection (Внедрение зависимостей) Спсобы внедрения зависимостей:
             1. Через метод инициализации (Через конструктор класса)
             2. Метод установки (сеттер)
+            3. Через метод
 """
-
-
+"""
 class Engine:
 
     def __init__(self, power: int):
@@ -59,6 +59,7 @@ class Car:
     @property
     def engine(self):
         return self.__engine
+"""
 
 
 def execute_application():
