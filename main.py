@@ -1,3 +1,5 @@
+from library_module import *
+
 """    Взаимодействие между классами    """
 
 """
@@ -74,6 +76,26 @@ def execute_application():
     car = Car(engine)
     print(f"Мощность автомобиля: {car.engine.power}")
     """
+
+    author = Author("Александр", "Пушкин", 1799)
+    book = Book("Евгений Онегин", author)
+    reader = Reader("Анаколий", 23579)
+    reader.take_book(book)
+    new_book = Book("Руслан и Валера", author)
+    reader.take_book(new_book)
+
+    print(f"Читатель {reader.name} взял книгу:")
+    for b in reader.books:
+        print(b)
+
+    try:
+        abook = reader.give_book("Евгений Онегин")
+    except FoundBookError as e:
+        print(e)
+
+    print(f"Читатель {reader.name} взял книгу:")
+    for b in reader.books:
+        print(b)
 
 
 if __name__ == "__main__":

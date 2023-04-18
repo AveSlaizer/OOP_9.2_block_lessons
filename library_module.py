@@ -37,6 +37,13 @@ class Author:
     def year(self):
         return self.__year
 
+    @year.setter
+    def year(self, year: int):
+        self.__year = year
+
+    def __str__(self):
+        return f"{self.__name} {self.__surname} {self.__year}"
+
 
 class Book:
 
@@ -70,6 +77,9 @@ class Book:
     def page_qty(self, page_qty: int):
         self.__page_qty = page_qty
 
+    def __str__(self):
+        return f"< Название: {self.title}, автор: {self.author} >"
+
 
 class Reader:
 
@@ -77,6 +87,10 @@ class Reader:
         self.__name = name
         self.__ticket = ticket
         self.__books = []
+
+    @property
+    def name(self):
+        return self.__name
 
     @property
     def books(self):
