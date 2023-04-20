@@ -1,5 +1,6 @@
 import copy
 from abc import abstractmethod
+import json
 
 """
 Реализовать классы Книга, Автор, Читатель, доп: Библиотека
@@ -177,3 +178,40 @@ class AuthorFilterBooksLibrary(FilterLibrary):
         for book in books:
             if book.author == author:
                 yield book
+
+
+class AuthorJSONConverter:
+
+    @staticmethod
+    def to_dict(author: Author):
+        if isinstance(author, Author):
+            result = author.__dict__
+            result["className"] = author.__class__.__name__
+            return result
+
+
+class TestEncoder(json.JSONEncoder):
+    def default(self, other):
+        return {"Name": other.name, "Surname": other.surname, "Year": other.year, "className": other.__class__.__name__}
+
+
+class JSONAuthorAdapter:
+
+    @staticmethod
+    def to_json(author: Author):
+        if isinstance(author, Author):
+            return json.dumps(
+                {"Name": author.name,
+                 "Surname": author.surname,
+                 "Year": author.year,
+                 "className": author.__class__.__name__}
+            )
+
+    @staticmethod
+    def from_json(data):
+        obj = json.loads(data)
+
+        try:
+            return Author(obj["Name"], obj["Surname"], int(obj["Year"]))
+        except AttributeError:
+            print("Wrong structure")

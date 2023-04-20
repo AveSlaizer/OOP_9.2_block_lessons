@@ -1,4 +1,5 @@
 from library_module import *
+import json
 
 
 def execute_application():
@@ -21,6 +22,35 @@ def execute_application():
 
     for book in book_list:
         print(book)
+
+    # Способ 1.
+    """
+    j = json.dumps(author, default=lambda x: x.__dict__)
+    print(j)
+    lib = json.dumps(library, default=lambda x: x.__dict__)
+    print(lib)
+    """
+
+    # Способ 2.
+    """
+    j = AuthorJSONConverter.to_dict(author)
+    d = json.dumps(j)
+    print(d)
+    """
+
+    # Способ 3. - переопределение метода default
+    """
+    x = json.dumps(author, cls=TestEncoder)
+    print(x)
+    """
+
+    # Способ 4.
+
+    x = JSONAuthorAdapter.to_json(author)
+    print(x)
+
+    obj = JSONAuthorAdapter.from_json(x)
+    print(obj)
 
 
 if __name__ == "__main__":
