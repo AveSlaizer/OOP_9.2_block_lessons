@@ -1,4 +1,5 @@
 import copy
+from abc import abstractmethod
 
 """
 Реализовать классы Книга, Автор, Читатель, доп: Библиотека
@@ -43,6 +44,14 @@ class Author:
 
     def __str__(self):
         return f"{self.__name} {self.__surname} {self.__year}"
+
+    def __eq__(self, other):
+        if isinstance(other, Author):
+            return self.__name == other.__name and self.__surname == other.__surname and self.__year == other.__year
+        raise TypeError(f"Невозможно сравнить с объектом {other.__class__.__name__}")
+
+    def __hash__(self):
+        return hash((self.__name, self.__surname, self.__year))
 
 
 class Book:
@@ -113,6 +122,10 @@ class Library:
         self.__books = []
         self.__readers = []
 
+    @property
+    def books(self):
+        return self.__books
+
     def add_book(self, book: Book):
         self.__books.append(copy.deepcopy(book))
 
@@ -125,3 +138,29 @@ class Library:
     def print_books(self):
         for index, book in enumerate(self.__books, start=1):
             print(f"{index}) {book}")
+
+
+class FilterLibrary:
+
+    @staticmethod
+    @abstractmethod
+    def get_books(library: Library, key):
+        raise NotImplementedError
+
+
+class GenreFilterBooksLibrary(FilterLibrary):
+
+    @staticmethod
+    def get_books(library: Library, genre: str):
+        for book in library.books:
+            if book.genre == genre:
+                yield book
+
+
+class AuthorFilterBooksLibrary(FilterLibrary):
+
+    @staticmethod
+    def get_books(library: Library, author: Author):
+        for book in library.books:
+            if book.author == author:
+                yield book
