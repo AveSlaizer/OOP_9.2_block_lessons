@@ -5,6 +5,7 @@ import json
 def execute_application():
     author = Author("Александр", "Пушкин", 1799)
     book = Book("Евгений Онегин", "Роман", author)
+    book.page_qty = 345
     reader = Reader("Анаколий", 23579)
 
     new_book = Book("Руслан и Валера", "Роман", author)
@@ -51,6 +52,9 @@ def execute_application():
 
     obj = JSONAuthorAdapter.from_json(x)
     print(obj)
+
+    b = JSONBookAdapter.to_json(book)
+    print(b)
 
 
 if __name__ == "__main__":

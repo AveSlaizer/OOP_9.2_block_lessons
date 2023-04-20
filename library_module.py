@@ -203,8 +203,7 @@ class JSONAuthorAdapter:
             return json.dumps(
                 {"Name": author.name,
                  "Surname": author.surname,
-                 "Year": author.year,
-                 "className": author.__class__.__name__}
+                 "Year": author.year}
             )
 
     @staticmethod
@@ -215,3 +214,16 @@ class JSONAuthorAdapter:
             return Author(obj["Name"], obj["Surname"], int(obj["Year"]))
         except AttributeError:
             print("Wrong structure")
+
+
+class JSONBookAdapter:
+
+    @staticmethod
+    def to_json(book: Book):
+        if isinstance(book, Book):
+            return json.dumps({
+                "Title": book.title,
+                "Genre": book.genre,
+                "Pages": book.page_qty,
+                "Author": JSONAuthorAdapter.to_json(book.author)
+                })
