@@ -115,7 +115,14 @@ class Reader:
         raise FoundBookError(f"У читателя отсутствует книга {title}")
 
 
-class Library:
+class SearchingObjects:
+
+    @abstractmethod
+    def get_objects(self):
+        raise NotImplementedError
+
+
+class Library(SearchingObjects):
 
     def __init__(self, name: str):
         self.__name = name
@@ -139,6 +146,10 @@ class Library:
         for index, book in enumerate(self.__books, start=1):
             print(f"{index}) {book}")
 
+    def get_objects(self):
+        for book in self.__books:
+            yield book
+
 
 class FilterLibrary:
 
@@ -152,7 +163,8 @@ class GenreFilterBooksLibrary(FilterLibrary):
 
     @staticmethod
     def get_books(library: Library, genre: str):
-        for book in library.books:
+        books = library.get_objects()
+        for book in books:
             if book.genre == genre:
                 yield book
 
@@ -161,6 +173,7 @@ class AuthorFilterBooksLibrary(FilterLibrary):
 
     @staticmethod
     def get_books(library: Library, author: Author):
-        for book in library.books:
+        books = library.get_objects()
+        for book in books:
             if book.author == author:
                 yield book
