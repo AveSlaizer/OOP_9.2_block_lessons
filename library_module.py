@@ -47,10 +47,10 @@ class Author:
 
 class Book:
 
-    def __init__(self, title: str, author: Author):
+    def __init__(self, title: str, genre: str, author: Author):
         self.__title = title
         self.__author = author
-        self.__genre = None
+        self.__genre = genre
         self.__page_qty = 0
 
     @property
@@ -107,4 +107,21 @@ class Reader:
 
 
 class Library:
-    pass
+
+    def __init__(self, name: str):
+        self.__name = name
+        self.__books = []
+        self.__readers = []
+
+    def add_book(self, book: Book):
+        self.__books.append(copy.deepcopy(book))
+
+    def del_book(self, title: str):
+        for index, book in enumerate(self.__books):
+            if book.title == title:
+                return self.__books.pop(index)
+        raise FoundBookError(f"В библиотеке отсутствует книга с названием {title}")
+
+    def print_books(self):
+        for index, book in enumerate(self.__books, start=1):
+            print(f"{index}) {book}")
